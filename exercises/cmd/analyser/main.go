@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"log"
 	"os"
 	"strconv"
@@ -32,39 +34,54 @@ func parsedIntArgOrDefault(args []string, argname string, _default int) int {
 }
 
 func askStudentName(studentIdx int) string {
-	fmt.Println(strings.Repeat("=", 30));
+	fmt.Print(strings.Repeat("=", 10))
+	fmt.Printf(" Student %v ", studentIdx + 1);
+	fmt.Print(strings.Repeat("=", 10), "\n");
 	studentName := ""
+
+OuterLoop:
 	for {
 		scanner := bufio.NewScanner(os.Stdin)
-		fmt.Print("Type student", studentIdx+1, "'s name > ")
+		fmt.Print("Student's fullname > ")
 
 		if scanner.Scan() {
 			studentName = scanner.Text()
 		}
 
-		if len(studentName) == 0 {
-			log.Println("Username must no be empty. Try again")
-			continue
+		subnames := strings.Split(studentName, " ")
+
+		if len(subnames) < 2 {
+			log.Printf("Student must have at least 2 subnames. Try again");
+			continue;
 		}
+
+		for _, name := range subnames {
+			if len(name) <= 2 {
+				log.Printf("Student subname \"%v\" must have at least 3 characters. Try again", name)
+				continue OuterLoop;
+			}
+		}
+
 		break
 	}
 
-	return studentName
+	caser := cases.Title(language.Portuguese, cases.NoLower)
+	return caser.String(studentName)
 }
 
-func askForGrade(gradeIdx int) float32 {
+func askForGrade(gradeIdx int) Grade {
 	for {
 		scanner := bufio.NewScanner(os.Stdin)
-		fmt.Print("Type grade ", gradeIdx + 1, " >> ");
+		fmt.Print("Type grade ", gradeIdx+1, " >> ")
 
 		if scanner.Scan() {
-			val, err := strconv.ParseFloat(scanner.Text(), 32)
+			val, err := strconv.ParseFloat(scanner.Text(), 32 /* to 32 bits */)
 			if err != nil {
 				log.Print("Failed to parse grade \"", scanner.Text(), "\". Try again")
 				continue
 			}
 
-			return float32(val)
+			return Grade(val)
 		}
 	}
 }
@@ -74,12 +91,18 @@ type Args struct {
 	ScorePerStudent int
 }
 
+type Grade float32
+type GradeResume map[string][]Grade
+
 func startProcessing(parsedArgs Args) {
-	gradesResume := make(map[string][]float32)
+	gradesResume := make(GradeResume)
+
 	for s := range parsedArgs.StudentsCount {
 		studentName := askStudentName(s)
+		gradesResume[studentName] = make([]Grade, parsedArgs.ScorePerStudent);
+		log.Printf("Student \"%v\" registered in the system.", studentName);
 
-		studentGrades := make([]float32, parsedArgs.ScorePerStudent)
+		studentGrades := make([]Grade, parsedArgs.ScorePerStudent)
 		for i := range parsedArgs.ScorePerStudent {
 			studentGrades[i] = askForGrade(i)
 		}
@@ -100,5 +123,5 @@ func main() {
 		ScorePerStudent: parsedIntArgOrDefault(cliArgs, "-score", 3),
 	}
 
-	startProcessing(parsedArgs);
+	startProcessing(parsedArgs)
 }
