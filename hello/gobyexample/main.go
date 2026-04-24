@@ -7,6 +7,14 @@ func Main() {
 	// Loops();
 	// IfElse();
 	//Switch();
-	Arrays();
-	Slices();
+	// Arrays();
+	//Slices();
+	// Maps();
+	//VariadicFunctions();
+	// Closures();
+	// Strings();
+	// Structs();
+	// Methods()
+	// Interfaces()
+	Enums()
 }

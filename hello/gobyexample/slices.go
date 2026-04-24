@@ -11,7 +11,7 @@ func Slices() {
 
 	// slice declaration
 	var s []string
-	// slice initialization with capacity 3. Allocates memory for the slice
+	// slice initialization with capacity 3 and len 3. Allocates memory for the slice
 	s = make([]string, 3)
 
 	fmt.Println("Starting slice state: ", s, " len: ", len(s), " cap: ", cap(s))
@@ -54,4 +54,9 @@ func Slices() {
 
 	cp_tmps3 := cp_tmps2[:];
 	fmt.Println("Sliced copies3: ", cp_tmps3)
+
+	testSlice1 := []int{}; // empty slice
+	testSlice2 := make([]int, 0, 3); // empty slice, with len 0 and capacity 3
+	fmt.Println("Slice 1: ", testSlice1);
+	fmt.Println("Slice 2: ", testSlice2);
 }

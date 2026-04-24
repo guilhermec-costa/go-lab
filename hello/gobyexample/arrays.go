@@ -27,4 +27,8 @@ func Arrays() {
 
 	tmps := [...]float32{30.5, 20, 22.2,26.8};
 	fmt.Println("Sliced array: ", tmps[2:])
+
+	for _, t := range tmps {
+		fmt.Printf("Temperature %v\n", t);
+	}
 }
