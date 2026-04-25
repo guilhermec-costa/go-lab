@@ -16,5 +16,7 @@ func Main() {
 	// Structs();
 	// Methods()
 	// Interfaces()
-	Enums()
+	//Enums()
+	// StructEmbeddings();
+	CustomErrors();
 }

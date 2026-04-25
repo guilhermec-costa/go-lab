@@ -35,6 +35,7 @@ func (c circle) perim() float64 {
 }
 
 func detectCircle(g geometry) {
+	// type assertion
 	if c, ok := g.(circle); ok {
 		fmt.Println("Circle with radius ", c)
 	}
