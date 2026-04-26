@@ -27,5 +27,8 @@ func Main() {
 	// NonBlocking()
 	// ClosingChannels()
 	// RangeOverChannel()
-	Timers()
+	// Timers()
+	// Tickers()
+	// WorkerPools()
+	WaitGroups()
 }
