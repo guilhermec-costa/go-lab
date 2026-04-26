@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -26,6 +27,7 @@ type ZooAnimal interface {
 	Sound() string
 	Move() string
 	Info() string
+	Name() string
 }
 
 // ============================================
@@ -37,6 +39,10 @@ type Animal struct {
 	age      uint16
 	weight   float32
 	category Category
+}
+
+func (a Animal) Name() string {
+	return a.name;
 }
 
 type Dog struct {
@@ -153,6 +159,18 @@ func NewSnake(name string, age uint16, weight float32, venemous bool) Snake {
 	}
 }
 
+var AnimalNotFoundError = errors.New("Animal was not found with the given name")
+
+func FindByName(animals []ZooAnimal, name string) (ZooAnimal, error) {
+	for _, a := range animals {
+		if(a.Name() == name) {
+			return a, nil;
+		}
+	}
+
+	return nil, AnimalNotFoundError;
+}
+
 func reportAnimals(animals []ZooAnimal) {
 	for i, animal := range animals {
 		fmt.Printf("====== Animal %v ======\n", i+1)
@@ -194,4 +212,7 @@ func main() {
 	fmt.Println()
 	fmt.Println("Reporting only snakes")
 	reportAnimals(snakes)
+
+	animal, _:= FindByName(animals, "Churros");
+	fmt.Println("Animal:", animal.Info());
 }

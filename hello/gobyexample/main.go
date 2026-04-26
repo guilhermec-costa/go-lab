@@ -18,5 +18,9 @@ func Main() {
 	// Interfaces()
 	//Enums()
 	// StructEmbeddings();
-	CustomErrors();
+	//CustomErrors();
+	// Goroutines();
+	// Channels()
+	// ChannelSync();
+	Selects();
 }
