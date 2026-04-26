@@ -22,5 +22,10 @@ func Main() {
 	// Goroutines();
 	// Channels()
 	// ChannelSync();
-	Selects();
+	// Selects();
+	// Timeouts()
+	// NonBlocking()
+	// ClosingChannels()
+	// RangeOverChannel()
+	Timers()
 }
